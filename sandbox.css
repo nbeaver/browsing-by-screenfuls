@@ -1,4 +1,7 @@
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size:150%;
+  max-width: 30em;
+  text-align: justify;
+  vertical-align:middle;
   }

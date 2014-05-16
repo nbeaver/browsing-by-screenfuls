@@ -60,7 +60,7 @@ Now suppose I have a text file that is a screenful and a half long. If I move fo
 <button onclick="alert(windowVals())">Window values</button> 
 
 <p>
-Now, if you try this same procedure with most other text editors, and every web browser on earth that I know of, and even with the venerable unix 'less' command--correction:  after looking on StackOverflow and perusing the man page more carefully, I discovered that Esc-Space instead of Space will do the same thing as vi--they will not put what's at the bottom of the screen onto the top. They will instead put the end of the file at the bottom of the screen, essentially ignoring any attempt at continuity. I call this 'bottoming out,' since it's similar to when a car chassis dips down too far and smacks into the dirt, and it give a similar jarring sensation when reading.
+Now, if you try this same procedure with most other text editors, and every web browser on earth that I know of, and even with the venerable unix 'less' command--correction:  after looking on StackOverflow and perusing the man page more carefully, I discovered that Esc-Space instead of Space will do the same thing as vi--they will not put what's at the bottom of the screen onto the top. They will instead put the end of the file at the bottom of the screen, essentially ignoring any attempt at continuity. I call this 'bottoming out,' since it's similar to when a car chassis dips down too far and smacks into the dirt, and it gives a similar jarring sensation when reading.
 </p>
 
 <p>
@@ -83,6 +83,7 @@ Incidentally, website designers are aware of this issue, and put links related p
 <p>
 What web designers seem less aware of is the problems introduced by fixed headers, most of which use the css nav-fixed class. Even Ars Technica does this, and while Firefox <a href='https://bugzil.la/780345'>has fixed it in the latest version</a>, I suspect there will always be some issues with it.
 <!-- Bug description: "Page down scrolls too far on pages with fixed header elements (page size is miscalculated)"-->
+Because this problem isn't going away, I am tremendously grateful for tools like the <a href="http://alisdair.mcdiarmid.org/2013/05/29/kill-sticky-headers.html">Kill Sticky</a> bookmarklet.
 </p>
 
 <button onclick="alert(scrollEvents())">ScrollEvents</button> 

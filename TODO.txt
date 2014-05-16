@@ -1,0 +1,3 @@
+-- Look for another script hosting option now that userscripts.org is down.
+-- Include the script as a file that can be downloaded directly.
+-- Fix the CSS so it centers the column on the page and centers the title and buttons, but justifies the text.
