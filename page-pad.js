@@ -1,38 +1,33 @@
-var NumberOfScrollEvents = 0;
-var NumberOfCaughtScrollEvents = 0;
+// ==UserScript==
+// @name        Bottomless Browsing
+// @namespace   http://userscripts.org
+// @description Pad the bottom of the page with tildes if it is longer than one page to allow seamlessly paging down, much the way the vi editor does. Plays well with AutoPager.
+// @include     *
+// @version     1.1
+// ==/UserScript==
 var ScrollLimit = 2;
-document.addEventListener("DOMContentLoaded", load, false);
-//add event listener to scrolling
-function load() {
-  window.addEventListener("scroll", ScrollingDetected, false);
-  // create a new div element and give it some content
-  var newDiv = document.createElement("div");
-  newDiv.setAttribute("id", "pagePadder");
-  //newDiv.innerHTML += "~<br>"; //test to make sure the div can be modified
-  document.body.appendChild(newDiv);
+window.addEventListener("scroll", ScrollingDetected, false);
+// create a new div element and give it some content
+var newDiv = document.createElement("div");
+newDiv.setAttribute("id", "pagePadder");
+document.body.appendChild(newDiv);
 
-  //default to padding if it's longer than one screenful, since we won't have a chance to catch the event if it is between 1 and 2 screenfuls long
-  document.getElementById('page_padding_checkbox').checked = true;
-  if (pixelsBelow() < pixelsPerPgDn() && getDocHeight() > pixelsPerPgDn()) {
-    newContent = Array(11).join("~<br>"); //ten lines of tildes
-    newDiv.innerHTML += newContent; 
-  }
+//default to padding if it's longer than one screenful, since we won't have a chance to catch the event if it is between 1 and 2 screenfuls long
+if (pixelsBelow() < pixelsPerPgDn() && getDocHeight() > pixelsPerPgDn()) {
+  newContent = Array(linesPerPgDn()).join("~<br>"); //ten lines of tildes
+  newDiv.innerHTML += newContent; 
 }
+
 function ScrollingDetected() {
-  NumberOfScrollEvents++;
-  var padPages = document.getElementById('page_padding_checkbox').checked;
-  if (pixelsBelow() < pixelsPerPgDn() && padPages === true && ScrollLimit > 0) {
+  if (pixelsBelow() < pixelsPerPgDn() && ScrollLimit > 0) {
     //var newContent = document.createTextNode("Bottoming out:pageYOffset="+window.pageYOffset+" innerHeight="+window.innerHeight+" scrollMaxY="+window.scrollMaxY+" Scroll events detected="+NumberOfScrollEvents+"\n");
     //var newContent = "Bottoming out:pageYOffset="+window.pageYOffset+" innerHeight="+window.innerHeight+" scrollMaxY="+window.scrollMaxY+" Scroll events detected="+NumberOfScrollEvents+"<br>";
     newContent = Array(linesPerPgDn()).join("~<br>"); //ten lines of tildes
     pagePadderDiv = document.getElementById('pagePadder');
     pagePadderDiv.innerHTML += newContent; 
-    //TODO: check to make sure there is less than 1000 tildes to avoid runaway memory usage
-    NumberOfCaughtScrollEvents++;
     ScrollLimit--;
   }
 }
-
 //http://code.google.com/p/chromium/issues/detail?id=2891
 function documentScrollTop() {
   return (document.documentElement.scrollTop + document.body.scrollTop
@@ -86,17 +81,15 @@ function pixelsBelow() {
 
 function pixelsPerPgDn() {
   return window.innerHeight;
-  //return Math.max(window.innerHeight,document.documentElement.clientHeight); //this should not return the size of the document
 }
 
 function linesPerPgDn() {
   pagePadderDiv = document.getElementById('pagePadder');
   //var CSSlineHeight = pagePadderDiv.style.lineHeight;
-  if (getLineHeight(pagePadderDiv) > 10) {
+  if (getLineHeight(pagePadderDiv) > 10 && !isNaN(getLineHeight(pagePadderDiv))) {
     return Math.ceil(pixelsPerPgDn() / getLineHeight(pagePadderDiv));
   }
   else { //estimate at least 10 lines per page down
-    //alert("Line height oddly low, should be higher than 10:"+getLineHeight(pagePadderDiv));
     return 10;
   }
 }
@@ -110,27 +103,4 @@ function getLineHeight(element){
    var ret = temp.clientHeight;
    temp.parentNode.removeChild(temp);
    return ret;
-}
-
-function windowVals() {
-  var windowVars = new Array();
-  windowVars['pixelsBelow'] = pixelsBelow();
-  windowVars['pixelsPerPgDn'] = pixelsPerPgDn();
-  windowVars['getDocHeight'] = getDocHeight();
-  windowVars['scrollHeight - clientHeight'] = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  windowVars['innerHeight'] = window.innerHeight;
-  windowVars['clientHeight'] = document.documentElement.clientHeight;
-  windowVars['scrollMaxY'] = window.scrollMaxY;
-  windowVars['scrollHeight'] = document.documentElement.scrollHeight;
-  windowVars['offsetHeight'] = document.documentElement.offsetHeight;
-  windowVars['scrollTop'] = document.documentElement.scrollTop;
-  windowVars['documentScrollTop()'] = documentScrollTop();
-  windowVars['linesPerPgDn()'] = linesPerPgDn();
-  varString = '';
-  for (var myvar in windowVars)
-    varString += myvar + "=" + windowVars[myvar] + "\n";
-  return varString;
-}
-function scrollEvents() {
-  return "NumberOfScrollEvents="+NumberOfScrollEvents+" NumberOfCaughtScrollEvents="+NumberOfCaughtScrollEvents;
 }
