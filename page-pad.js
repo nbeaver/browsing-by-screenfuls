@@ -7,9 +7,13 @@
 // ==/UserScript==
 var ScrollLimit = 2;
 window.addEventListener("scroll", ScrollingDetected, false);
+
 // create a new div element and give it some content
 var newDiv = document.createElement("div");
 newDiv.setAttribute("id", "pagePadder");
+
+// https://stackoverflow.com/questions/7759837/put-divs-below-floatleft-divs
+newDiv.setAttribute("style", "clear: both");
 document.body.appendChild(newDiv);
 
 //default to padding if it's longer than one screenful, since we won't have a chance to catch the event if it is between 1 and 2 screenfuls long
