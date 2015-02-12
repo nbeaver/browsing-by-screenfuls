@@ -8,32 +8,37 @@
 
 // Check for the existence of the body before trying to append anything to it.
 if (typeof document.body == 'object') {
-  createEmptyPaddingDiv()
+  pagePadderDiv = createEmptyPaddingDiv();
 
-  // Global variable to limit the number of times that padding is added to the end of the page.
-  var MaximumPadding = 1;
+  // Counter to limit the number of times that padding is added to the end of the page.
+  var allowedPadding = 3;
 
-  // Check if we need to add space every time the user scrolls.
-  window.addEventListener("scroll", ScrollingDetected, false);
+  padIfNecessary();
+
+  // Every time the user scrolls, check if we need to add space.
+  window.addEventListener("scroll", padIfNecessary);
   // https://stackoverflow.com/questions/2991382/how-do-i-add-and-remove-an-event-listener-using-a-function-with-parameters
-  
-  // Default to padding if the page is longer than one screenful,
-  // since we won't have a chance to catch the PgDn event in time
-  // if the page is between 1 and 2 screenfuls long.
-  if (totalVerticalPixels() > pixelsPerPgDn()) {
-    addPadding()
-  }
-
-  // Unfortunately, we can't just automatically pad the page if it is longer than one viewport,
-  // because AutoPager and sites with infinite scroll would be broken.
 }
 
-function ScrollingDetected() {
-  // Check if the number of remaining pixels are less than the next PgDn would use.
-  // If so, we need to add some padding to the page.
-  if (pixelsBelow() < pixelsPerPgDn() && MaximumPadding > 0) {
+function padIfNecessary() {
+  if (totalVerticalPixels() < pixelsPerPgDn() || pixelsBelow() >= pixelsPerPgDn()) {
+    console.log("No padding necessary.")
+    return;
+  } else if (allowedPadding > 0) {
+    // Append ten lines of tildes.
+    padding = Array(linesPerPgDn()).join("~<br>");
+    pagePadderDiv.innerHTML += padding;
+
     // Decrement the scroll limit so we don't keep on adding more and more space ad infinitem.
-    addPadding()
+    allowedPadding--;
+    // Check if the padding was enough or if we need to do more.
+    padIfNecessary();
+    return;
+  } else {
+    // We don't want to get into an infinite loop,
+    // so just give up.
+    console.log("Cannot pad page anymore.")
+    return;
   }
 }
 
@@ -46,21 +51,15 @@ function createEmptyPaddingDiv() {
   // instead of floating alongside everything else.
   newDiv.setAttribute("style", "clear: both");
   document.body.appendChild(newDiv);
+  return newDiv;
   // https://stackoverflow.com/questions/7759837/put-divs-below-floatleft-divs
-}
-
-function addPadding() {
-    // Append ten lines of tildes.
-    padding = Array(linesPerPgDn()).join("~<br>");
-    pagePadderDiv = document.getElementById('pagePadder');
-    pagePadderDiv.innerHTML += padding;
-    MaximumPadding--;
 }
 
 function totalVerticalPixels() {
   // total number of scrollable pixels.
-  return document.body.scrollHeight;
+  return document.documentElement.scrollHeight;
 }
+// Determined empirically. Could also use this strategy:
 // http://james.padolsey.com/javascript/get-document-height-cross-browser/
 
 function pixelsAbove() {
@@ -74,6 +73,7 @@ function pixelsBelow() {
   // remaining pixels =
   //     total height          - height above viewport - height of viewport
   return totalVerticalPixels() - pixelsAbove()         - pixelsPerPgDn();
+  // Keep in mind that this can be negative.
 }
 
 function pixelsPerPgDn() {
@@ -95,13 +95,13 @@ function linesPerPgDn() {
 }
 
 function approxLineHeight(element){
-   // Approximate the number of pixels high a line is.
-   var temp = document.createElement(element.nodeName);
-   temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
-   temp.innerHTML = "test";
-   temp = element.parentNode.appendChild(temp);
-   var ret = temp.clientHeight;
-   temp.parentNode.removeChild(temp);
-   return ret;
+  // Approximate the number of pixels high a line is.
+  var temp = document.createElement(element.nodeName);
+  temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
+  temp.innerHTML = "test";
+  temp = element.parentNode.appendChild(temp);
+  var ret = temp.clientHeight;
+  temp.parentNode.removeChild(temp);
+  return ret;
 }
 // http://stackoverflow.com/questions/4392868/javascript-find-divs-line-height-not-css-property-but-actual-line-height
