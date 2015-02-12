@@ -6,33 +6,55 @@
 // @version     1.1
 // ==/UserScript==
 
+// TODO: remove the stuff that is IE-specific,
+// since Greasemonkey only works on Chrome and Firefox anyway.
+
 // Check for the existence of the body before trying to append anything to it.
 if (typeof document.body !== 'undefined') {
-  var ScrollLimit = 2;
-  window.addEventListener("scroll", ScrollingDetected, false);
+  createEmptyPaddingDiv()
 
-  // create a new div element and give it some content
-  var newDiv = document.createElement("div");
-  newDiv.setAttribute("id", "pagePadder");
+  // Global variable to limit the number of times that padding is added to the end of the page.
+  var MaximumPadding = 2;
+
+  // Check if we need to add space every time the user scrolls.
+  window.addEventListener("scroll", ScrollingDetected, false);
+  // https://stackoverflow.com/questions/2991382/how-do-i-add-and-remove-an-event-listener-using-a-function-with-parameters
   
-  // https://stackoverflow.com/questions/7759837/put-divs-below-floatleft-divs
-  newDiv.setAttribute("style", "clear: both");
-  document.body.appendChild(newDiv);
-  
-  //default to padding if it's longer than one screenful, since we won't have a chance to catch the event if it is between 1 and 2 screenfuls long
+  // Default to padding if the page is longer than one screenful,
+  // since we won't have a chance to catch the PgDn event in time
+  // if the page is between 1 and 2 screenfuls long.
   if (pixelsBelow() < pixelsPerPgDn() && getDocHeight() > pixelsPerPgDn()) {
-    newContent = Array(linesPerPgDn()).join("~<br>"); //ten lines of tildes
-    newDiv.innerHTML += newContent;
+    addPadding()
   }
 }
 
 function ScrollingDetected() {
-  if (pixelsBelow() < pixelsPerPgDn() && ScrollLimit > 0) {
-    newContent = Array(linesPerPgDn()).join("~<br>"); //ten lines of tildes
-    pagePadderDiv = document.getElementById('pagePadder');
-    pagePadderDiv.innerHTML += newContent;
-    ScrollLimit--;
+  // Check if the number of remaining pixels are less than the next PgDn would use.
+  // If so, we need to add some padding to the page.
+  if (pixelsBelow() < pixelsPerPgDn() && MaximumPadding > 0) {
+    // Decrement the scroll limit so we don't keep on adding more and more space ad infinitem.
+    addPadding()
+    MaximumPadding--;
   }
+}
+
+// Creates the div that will hold the extra padding at the end of the page.
+function createEmptyPaddingDiv() {
+  var newDiv = document.createElement("div");
+  newDiv.setAttribute("id", "pagePadder");
+  
+  // Remove the style so that the div actually goes at the bottom of the page
+  // instead of floating alongside everything else.
+  newDiv.setAttribute("style", "clear: both");
+  document.body.appendChild(newDiv);
+  // https://stackoverflow.com/questions/7759837/put-divs-below-floatleft-divs
+}
+
+function addPadding() {
+    // Append ten lines of tildes.
+    padding = Array(linesPerPgDn()).join("~<br>");
+    pagePadderDiv = document.getElementById('pagePadder');
+    pagePadderDiv.innerHTML += padding;
 }
 
 function documentScrollTop() {
@@ -79,18 +101,18 @@ function getViewportHeight() {
 }
 // http://stackoverflow.com/questions/1766861/find-the-exact-height-and-width-of-the-viewport-in-a-cross-browser-way-no-proto
 
-function getDocHeight() {
-    var D = document;
+function documentHeight() {
     return Math.max(
-        Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
-        Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
-        Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+        Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+        Math.max(document.body.offsetHeight, document.documentElement.offsetHeight),
+        Math.max(document.body.clientHeight, document.documentElement.clientHeight)
     );
 }
 
 function pixelsBelow() {
-  // total height - height above viewport - height of viewport
-  return getDocHeight() - getScrollTop() - getViewportHeight();
+  // remaining pixels = 
+  //     total height     - height above viewport - height of viewport
+  return documentHeight() - pageYOffset           - window.innerHeight;
 }
 
 function pixelsPerPgDn() {
@@ -100,8 +122,8 @@ function pixelsPerPgDn() {
 function linesPerPgDn() {
   pagePadderDiv = document.getElementById('pagePadder');
   //var CSSlineHeight = pagePadderDiv.style.lineHeight;
-  if (estimateLineHeight(pagePadderDiv) > 10 && !isNaN(estimateLineHeight(pagePadderDiv))) {
-    return Math.ceil(pixelsPerPgDn() / estimateLineHeight(pagePadderDiv));
+  if ( approxLineHeight(pagePadderDiv) > 10 && !isNaN(approxLineHeight(pagePadderDiv)) ) {
+    return Math.ceil(pixelsPerPgDn() / approxLineHeight(pagePadderDiv));
   }
   else {
     //estimate at least 10 lines per page down
@@ -109,7 +131,7 @@ function linesPerPgDn() {
   }
 }
 
-function estimateLineHeight(element){
+function approxLineHeight(element){
    var temp = document.createElement(element.nodeName);
    temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
    temp.innerHTML = "test";
