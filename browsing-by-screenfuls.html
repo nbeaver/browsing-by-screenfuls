@@ -1,12 +1,27 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" lang="en" content="Nathaniel Beaver">
 <title>Browsing by screenfuls</title>
 <link rel="stylesheet" href="sandbox.css">
-<script type="text/javascript" src="Bottomless_Browsing.user.js"></script>
+<script type="text/javascript">
+function windowVals() {
+  var windowVars = new Array();
+  windowVars['scrollHeight - clientHeight'] = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  windowVars['innerHeight'] = window.innerHeight;
+  windowVars['clientHeight'] = document.documentElement.clientHeight;
+  windowVars['scrollMaxY'] = window.scrollMaxY;
+  windowVars['scrollHeight'] = document.documentElement.scrollHeight;
+  windowVars['offsetHeight'] = document.documentElement.offsetHeight;
+  windowVars['scrollTop'] = document.documentElement.scrollTop;
+  varString = '';
+  for (var myvar in windowVars) {
+    varString += myvar + "=" + windowVars[myvar] + "\n";
+  }
+  return varString;
+}
+</script>
 </head>
 <body>
 
@@ -14,80 +29,157 @@
 Browsing by screenfuls
 </h1>
 
-<button onclick="alert(scrollEvents())">ScrollEvents</button> 
 <button onclick="alert(windowVals())">Window values</button> 
-<input type="checkbox" id="page_padding_checkbox">Pad end of page?<br>
 
-<!-- I think these should be paragraphs, not divs. -->
+<!-- I think these sections should be paragraphs, not divs. -->
 <p>
 Nathaniel Beaver, September 7, 2012
 </p>
-<a href="http://userscripts.org/scripts/show/145505">Get the GreaseMonkey script here.</a>
-<a href="http://userscripts.org:8080/scripts/show/145505">Userscripts is down; get the script here.</a>
+
 <p>
-I read text documents and PDFs on my laptop screen on a regular basis. PDFs are problematic to read on smaller screens, since generally documents are in 8.5" X 11" portrait orientation, whereas screens are generally landscape orientation (with a few exceptions). Text documents, however, can flow to fill whatever area I wish, so that setting up side-by-side comparisons, for example, is easy. Text documents are continuous in a way that PDFs can't be, and PDFs also waste a lot of space in the margins.
+I read text documents and PDFs on my laptop screen on a regular basis. PDFs are
+problematic to read on smaller screens, since generally documents are in 8.5" x
+11" portrait orientation, whereas screens are generally landscape orientation
+(with a few exceptions). Text documents, however, can flow to fill whatever
+area I wish, so that setting up side-by-side comparisons, for example, is easy.
+Text documents are continuous in a way that PDFs can't be, and PDFs also waste
+a lot of space in the margins.
 </p>
 
 <p>
-There is, however, another problem. Suppose I open a text document. If it fits on one screenful, fine and dandy. But suppose it doesn't. Now I have some choices: I can resize the window (not always possible, and unnecessarily time consuming), I can scroll down one line at a time with the arrow keys or mouse, or I can go forward one screenful (Page Down key or equivalent).
+There is, however, another problem. Suppose I open a text document. If it fits
+on one screenful, fine and dandy. But suppose it doesn't. Now I have some
+choices: I can resize the window (not always possible, and unnecessarily time
+consuming), I can scroll down one line at a time with the arrow keys or mouse,
+or I can go forward one screenful (Page Down key or equivalent).
 </p>
 
 <p>
-Scrolling is what most people do on both browsers and text editors, and now that we have scroll wheels on mice, that's a lot more practical that clicking and dragging on the scroll bar. But compare that to reading a book. When I read a book, I read a page, remember the last little bit, then keep on going. The text stays still, and my eyes always know where to go. If I want to go back and re-read some dialogue, it's dead simple. Scrolling, by contrast, is hard on the eyes because it's hard to do it at a constant speed, and all that jumping around is tiring.
-</p>
-
-<button onclick="alert(windowVals())">Window values</button> 
-
-<p>
-Now, if scrolling only made my eyes water and my vision blur, I might forgive it. But it's slow; that's why we invented books in the first place, because they're better for reading than scrolls. This is what is really unforgivable about scrolling: it just takes too much time to keep track of where I am if I actually want to read each word quickly.
-</p>
-
-<p>
-Reading by screenfuls is a natural way to read documents. I love the page down capability, because it is like books, but allows a line of continuity between 'pages'. Even better, it can adjust to the size of my screen. The text stays still until I get the the bottom of the screen, then I press page down and flick my eyes up to the top of the screen. Beautiful.
-</p>
-
-<p>
-Ok, but what if I'm just skimming a document? Then all I want is to move through a bunch of pages really fast. So I hold down on the Page Down key, and they all fly by. But if I do this in Adobe Acrobat Reader (tm) on a really long PDF, it won't stop going. I'm not sure if this is because it takes so long rendering or because it uses inertial scrolling, but after I let up on the key, it won't stop. I asked for that many pages, and by George I'll get them, even if it takes 30 seconds to load pages I don't want to see. By then I've lost my place and I have to go find it again. Maybe by searching, as long as it's not a bitmapped PDF, 'cause then I'm sunk.
-</p>
-
-<p>
-Now suppose I have a text file that is a screenful and a half long. If I move forward a screenful in Emacs (C-v) or Vim (C-f), they know I want what's at the bottom to move to the top, regardless of how many lines the file happens to be. Emacs just puts some unreachable blank space at the bottom, and Vim puts cute little tildes to show you're past the end of the document, like this:<br>
-~<br>
-~<br>
-~<br>
-(I'm not saying reading in Emacs or Vim is perfect; navigating long lines in default Vim is painful, since I have to use gj instead of j and the . operator doesn't work, besides which it won't remember your last column position if you use '' to get back to where you were.)
+Scrolling is what most people do on both browsers and text editors, and now
+that we have scroll wheels on mice, that's a lot more practical that clicking
+and dragging on the scroll bar. But compare that to reading a book. When I read
+a book, I read a page, remember the last little bit, then keep on going. The
+text stays still, and my eyes always know where to go. If I want to go back and
+re-read some dialogue, it's dead simple. Scrolling, by contrast, is hard on the
+eyes because it's hard to do it at a constant speed, and all that jumping
+around is tiring.
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
 
 <p>
-Now, if you try this same procedure with most other text editors, and every web browser on earth that I know of, and even with the venerable unix 'less' command--correction:  after looking on StackOverflow and perusing the man page more carefully, I discovered that Esc-Space instead of Space will do the same thing as vi--they will not put what's at the bottom of the screen onto the top. They will instead put the end of the file at the bottom of the screen, essentially ignoring any attempt at continuity. I call this 'bottoming out,' since it's similar to when a car chassis dips down too far and smacks into the dirt, and it gives a similar jarring sensation when reading.
+Now, if scrolling only made my eyes water and my vision blur, I might forgive
+it. But it's slow; that's why we invented books in the first place, because
+they're better for reading than scrolls. This is what is really unforgivable
+about scrolling: it just takes too much time to keep track of where I am if I
+actually want to read each word quickly.
 </p>
 
 <p>
-PDF documents have to do this because they have to preserve the typographical layout, but webpages shouldn't have to. It is admittedly a non-issue for webpages that fit one one screenful and a pretty diluted issue for very long webpages, but most are right in the middle, more than one screenful and less than 10 or so.
+Reading by screenfuls is a natural way to read documents. I love the page down
+capability, because it is like books, but allows a line of continuity between
+'pages'. Even better, it can adjust to the size of my screen. The text stays
+still until I get the bottom of the screen, then I press page down and
+flick my eyes up to the top of the screen. Beautiful.
 </p>
 
 <p>
-I put up with this when I didn't know any better, but after using Vim I realized how annoying this phenomenon is, especially on websites that consist of one article chopped into 10 different pieces so that they can put more banner ads at the top. I use Firefox addons to combat both <a href="http://adblockplus.org/en/">irritating ads</a> and <a href="http://www.teesoft.info/">pagination</a>, but there's nothing I can do about bottoming out on the last screenful. I resigned myself to inferior browsing, since nobody seemed to notice or care enough to fix it.
+Ok, but what if I'm just skimming a document? Then all I want is to move
+through a bunch of pages really fast. So I hold down on the Page Down key, and
+they all fly by. But if I do this in Adobe Acrobat Reader™ on a really long
+PDF, it won't stop going. I'm not sure if this is because it takes so long
+rendering or because it uses inertial scrolling, but after I let up on the key,
+it won't stop. I asked for that many pages, and by George I'll get them, even
+if it takes 30 seconds to load pages I don't want to see. By then I've lost my
+place and I have to go find it again. Maybe by searching, as long as it's not a
+bitmapped PDF, 'cause then I'm sunk.
 </p>
 
 <p>
-Until now: see the results of my experiment on this very page. I need to improve the guessing how many lines are necessary; currently I just assume 10 will be enough. You will notice that if this document flows to betweeen 1 and 2 screenfuls, there will automatically be padding; this is because the onscroll event fires after the scrolling takes place, so the tildes are actually added before you even press the PgDn button. In theory, it wouldn't be that difficult to turn this into a Greasemonkey script or even a stand-alone Firefox addon. (Update: <a href="http://userscripts.org/scripts/show/145505">Get the GreaseMonkey script here.</a>)
+Now suppose I have a text file that is a screenful and a half long. If I move
+forward a screenful in Emacs (<code>C-v</code>) or Vim (<code>C-f</code>), they
+know I want what's at the bottom to move to the top, regardless of how many
+lines the file happens to be.  Emacs just puts some unreachable blank space at
+the bottom, and Vim puts cute little tildes to show you're past the end of the
+document, like this:<br>
+~<br>
+~<br>
+~<br>
+(I'm not saying reading in Emacs or Vim is perfect; navigating long lines in
+default Vim is painful, since I have to use <code>gj</code> instead of
+<code>j</code> and the <code>.</code> operator doesn't work, besides which it won't
+remember your last column position if you use <code>''</code> to get back to
+where you were.)
+</p>
+
+<button onclick="alert(windowVals())">Window values</button> 
+
+<p>
+Now, if you try this same procedure with most other text editors, and every web
+browser on earth that I know of, and even with the venerable Unix <code>less</code>
+command--correction:  after looking on StackOverflow and perusing the man page
+more carefully, I discovered that Esc-Space instead of Space will do the same
+thing as vi--they will not put what's at the bottom of the screen onto the top.
+They will instead put the end of the file at the bottom of the screen,
+essentially ignoring any attempt at continuity. I call this 'bottoming out,'
+since it's similar to when a car chassis dips down too far and smacks into the
+dirt, and it gives a similar jarring sensation when reading.
 </p>
 
 <p>
-Incidentally, website designers are aware of this issue, and put links related pages or some other form of footer on the bottom of the page; not necessarily enough to solve the problem, but enough to show an awareness of the issue. Another solution, called "Infinite Scroll", is becoming popular, though in practice it's not used for single article-style pages and it seldom loads quickly enough to completely prevent bottoming out.
+PDF documents have to do this because they have to preserve the typographical
+layout, but webpages shouldn't have to. It is admittedly a non-issue for
+webpages that fit one one screenful and a pretty diluted issue for very long
+webpages, but most are right in the middle, more than one screenful and less
+than 10 or so.
 </p>
 
-<!-- Added 11/6/12. Yay manual version control!-->
 <p>
-What web designers seem less aware of is the problems introduced by fixed headers, most of which use the css nav-fixed class. Even Ars Technica does this, and while Firefox <a href='https://bugzil.la/780345'>has fixed it in the latest version</a>, I suspect there will always be some issues with it.
+I put up with this when I didn't know any better, but after using Vim I
+realized how annoying this phenomenon is, especially on websites that consist
+of one article chopped into 10 different pieces so that they can put more
+banner ads at the top. I use Firefox addons to combat both
+<a href="http://adblockplus.org/en/">irritating ads</a>
+and
+<a href="http://www.teesoft.info/">pagination</a>,
+but there's nothing I can do about bottoming out on the last screenful. I
+resigned myself to inferior browsing, since nobody seemed to notice or care
+enough to fix it.
+</p>
+
+<p>
+
+<!-- TODO: change this to reStructuredText and just link to the demo page. -->
+Until now: see the results of my experiment on the demo page: 
+
+improve the guessing how many lines are necessary; currently I just assume 10
+will be enough. You will notice that if this document flows to betweeen 1 and 2
+screenfuls, there will automatically be padding; this is because the onscroll
+event fires after the scrolling takes place, so the tildes are actually added
+before you even press the PgDn button.
+</p>
+
+<p>
+Incidentally, website designers are aware of this issue, and put links related
+pages or some other form of footer on the bottom of the page; not necessarily
+enough to solve the problem, but enough to show an awareness of the issue.
+Another solution, called "Infinite Scroll", is becoming popular, though in
+practice it's not used for single article-style pages and it seldom loads
+quickly enough to completely prevent bottoming out.
+</p>
+
+<p>
+What web designers seem less aware of is the problems introduced by fixed
+headers, most of which use the css nav-fixed class. Even Ars Technica does
+this, and while Firefox
+<a href='https://bugzil.la/780345'>has fixed it in the latest version</a>,
+I suspect there will always be some issues with it.
 <!-- Bug description: "Page down scrolls too far on pages with fixed header elements (page size is miscalculated)"-->
-Because this problem isn't going away, I am tremendously grateful for tools like the <a href="http://alisdair.mcdiarmid.org/2013/05/29/kill-sticky-headers.html">Kill Sticky</a> bookmarklet.
+Because this problem isn't going away, I am tremendously grateful for tools like the
+<a href="http://alisdair.mcdiarmid.org/2013/05/29/kill-sticky-headers.html">Kill Sticky</a>
+bookmarklet.
 </p>
 
-<button onclick="alert(scrollEvents())">ScrollEvents</button> 
 <button onclick="alert(windowVals())">Window values</button> 
 
 </body>

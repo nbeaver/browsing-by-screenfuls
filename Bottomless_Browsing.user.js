@@ -3,14 +3,14 @@
 // @namespace   http://userscripts.org
 // @description Pad the bottom of the page with tildes if it is longer than one page to allow seamlessly paging down, much the way the vi editor does. Plays well with AutoPager.
 // @include     *
-// @version     1.1
+// @version     1.2
 // ==/UserScript==
 
 // TODO: remove the stuff that is IE-specific,
 // since Greasemonkey only works on Chrome and Firefox anyway.
 
 // Check for the existence of the body before trying to append anything to it.
-if (typeof document.body !== 'undefined') {
+if (typeof document.body == 'object') {
   createEmptyPaddingDiv()
 
   // Global variable to limit the number of times that padding is added to the end of the page.
@@ -108,9 +108,10 @@ function documentHeight() {
         Math.max(document.body.clientHeight, document.documentElement.clientHeight)
     );
 }
+// TODO:This is basically a constant, so it could be pre-computed instead.
 
 function pixelsBelow() {
-  // remaining pixels = 
+  // remaining pixels =
   //     total height     - height above viewport - height of viewport
   return documentHeight() - pageYOffset           - window.innerHeight;
 }
@@ -131,6 +132,7 @@ function linesPerPgDn() {
   }
 }
 
+// Approximate the number of pixels high a line is.
 function approxLineHeight(element){
    var temp = document.createElement(element.nodeName);
    temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
@@ -141,3 +143,4 @@ function approxLineHeight(element){
    return ret;
 }
 // http://stackoverflow.com/questions/4392868/javascript-find-divs-line-height-not-css-property-but-actual-line-height
+// TODO:This is basically a constant, so it could be pre-computed instead.

@@ -2,6 +2,8 @@ body {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 150%;
   max-width: 30em;
+  justify-content: center;
   text-align: justify;
-  vertical-align: middle;
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/margin#Horizontal_centering_with_margin.3A_0_auto.3B */
+  margin: 0 auto;
   }
