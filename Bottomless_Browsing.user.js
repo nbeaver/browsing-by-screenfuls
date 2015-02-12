@@ -6,15 +6,12 @@
 // @version     1.2
 // ==/UserScript==
 
-// TODO: remove the stuff that is IE-specific,
-// since Greasemonkey only works on Chrome and Firefox anyway.
-
 // Check for the existence of the body before trying to append anything to it.
 if (typeof document.body == 'object') {
   createEmptyPaddingDiv()
 
   // Global variable to limit the number of times that padding is added to the end of the page.
-  var MaximumPadding = 2;
+  var MaximumPadding = 1;
 
   // Check if we need to add space every time the user scrolls.
   window.addEventListener("scroll", ScrollingDetected, false);
@@ -23,9 +20,12 @@ if (typeof document.body == 'object') {
   // Default to padding if the page is longer than one screenful,
   // since we won't have a chance to catch the PgDn event in time
   // if the page is between 1 and 2 screenfuls long.
-  if (pixelsBelow() < pixelsPerPgDn() && getDocHeight() > pixelsPerPgDn()) {
+  if (totalVerticalPixels() > pixelsPerPgDn()) {
     addPadding()
   }
+
+  // Unfortunately, we can't just automatically pad the page if it is longer than one viewport,
+  // because AutoPager and sites with infinite scroll would be broken.
 }
 
 function ScrollingDetected() {
@@ -34,7 +34,6 @@ function ScrollingDetected() {
   if (pixelsBelow() < pixelsPerPgDn() && MaximumPadding > 0) {
     // Decrement the scroll limit so we don't keep on adding more and more space ad infinitem.
     addPadding()
-    MaximumPadding--;
   }
 }
 
@@ -55,68 +54,31 @@ function addPadding() {
     padding = Array(linesPerPgDn()).join("~<br>");
     pagePadderDiv = document.getElementById('pagePadder');
     pagePadderDiv.innerHTML += padding;
+    MaximumPadding--;
 }
 
-function documentScrollTop() {
-  if (document.documentElement.scrollTop + document.body.scrollTop == document.documentElement.scrollTop) {
-    return document.documentElement.scrollTop;
-  }
-  else {
-    return document.body.scrollTop;
-  }
+function totalVerticalPixels() {
+  // total number of scrollable pixels.
+  return document.body.scrollHeight;
 }
+// http://james.padolsey.com/javascript/get-document-height-cross-browser/
+
+function pixelsAbove() {
+  // https://stackoverflow.com/questions/20514596/document-documentelement-scrolltop-return-value-differs-in-chrome
+  return window.pageYOffset || document.documentElement.scrollTop;
+}
+// https://stackoverflow.com/questions/4106538/difference-between-offsetheight-and-clientheight
 // http://code.google.com/p/chromium/issues/detail?id=2891
-
-function getScrollTop(){
-    if (typeof pageYOffset !== 'undefined') {
-        //most browsers
-        return pageYOffset;
-    }
-    else {
-        var B = document.body; //IE 'quirks'
-        var D = document.documentElement; //IE with doctype
-        D = (D.clientHeight)? D: B;
-        return D.scrollTop;
-    }
-}
-//http://stackoverflow.com/questions/871399/cross-browser-method-for-detecting-the-scrolltop-of-the-browser-window
-
-function getViewportHeight() {
-  var viewPortHeight;
-  // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
-  if (typeof window.innerHeight != 'undefined') {
-    viewPortHeight = window.innerHeight;
-  }
-  // IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
-  else if (typeof document.documentElement != 'undefined'
-        && typeof document.documentElement.clientHeight!= 'undefined'
-        && document.documentElement.clientHeight!= 0) {
-    viewPortHeight = document.documentElement.clientHeight;
-  }
-  else {
-    // older versions of IE
-    viewPortHeight = document.getElementsByTagName('body')[0].clientHeight
-  }
-  return viewPortHeight;
-}
-// http://stackoverflow.com/questions/1766861/find-the-exact-height-and-width-of-the-viewport-in-a-cross-browser-way-no-proto
-
-function documentHeight() {
-    return Math.max(
-        Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
-        Math.max(document.body.offsetHeight, document.documentElement.offsetHeight),
-        Math.max(document.body.clientHeight, document.documentElement.clientHeight)
-    );
-}
-// TODO:This is basically a constant, so it could be pre-computed instead.
 
 function pixelsBelow() {
   // remaining pixels =
-  //     total height     - height above viewport - height of viewport
-  return documentHeight() - pageYOffset           - window.innerHeight;
+  //     total height          - height above viewport - height of viewport
+  return totalVerticalPixels() - pixelsAbove()         - pixelsPerPgDn();
 }
 
 function pixelsPerPgDn() {
+  // Right now, this is pretty simple to calculate,
+  // but we might need to change the definition later.
   return window.innerHeight;
 }
 
@@ -132,8 +94,8 @@ function linesPerPgDn() {
   }
 }
 
-// Approximate the number of pixels high a line is.
 function approxLineHeight(element){
+   // Approximate the number of pixels high a line is.
    var temp = document.createElement(element.nodeName);
    temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
    temp.innerHTML = "test";
@@ -143,4 +105,3 @@ function approxLineHeight(element){
    return ret;
 }
 // http://stackoverflow.com/questions/4392868/javascript-find-divs-line-height-not-css-property-but-actual-line-height
-// TODO:This is basically a constant, so it could be pre-computed instead.
