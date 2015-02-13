@@ -38,7 +38,7 @@ Nathaniel Beaver, September 7, 2012
 </p>
 
 <p>
-I read a lot of documents on computer screens.
+I read a lot of documents on LCD computer screens.
 
 PDFs are annoying to read on most displays,
 since the PDF is usually a letter size portrait orientation,
@@ -53,22 +53,28 @@ HTML rendered in a browser, however,
 can reflow to fill whatever screen it's displayed on,
 and with proper use of CSS can be made readable on any display.
 
-HTML is continuous in a way that PDFs aren't.
+You can change the font,
+resize the text,
+even change the CSS if you want.
+
+HTML is flexible and continuous
+in a way that PDFs aren't
+and were never meant to be.
 </p>
 
 <p>
 HTML also tends to be better for skimming a document.
 
-If I hold down the Page Down key in Adobe Acrobat Reader™ on a really long PDF,
+If I hold down the Page Down key in Adobe Acrobat Reader™ on a long PDF,
 the pages don't stop coming after I release the key;
 I asked for that many pages and by George I'll get them,
 even if it takes several minutes to load pages I didn't want to see.
 
-By then I've lost my place and I have to go find it again.
-Maybe by searching, as long as it's not a bitmapped PDF, 'cause then I'm sunk.
+By then I've lost my place and I have to go find it again somehow.
 
-(This issue is specific to Adobe's PDF reader, by the way; 
-open-source PDF readers like Evince don't have this problem.)
+(This issue is mostly a feature of Adobe's PDF reader, by the way;
+open-source PDF readers like Evince don't generally have this issue
+unless the PDF is very image-heavy or otherwise renders slowly.)
 </p>
 
 <p>
@@ -100,53 +106,50 @@ then I page down and flick my eyes up to the top of the screen.
 Beautiful.
 </p>
 
-
 <p>
-However, there is a problem with reading HTML that is a result of browser implementation,
+However, there is a problem with reading HTML
+that is a result of browser implementation,
 not intrinsic to the format.
 
 Suppose I am reading an HTML page that is a screenful and a half long.
-When I page down,
-they will not put what's at the bottom of the screen onto the top.
 
-They will instead put the end of the file at the bottom of the screen,
-essentially ignoring any attempt at continuity. I call this 'bottoming out,'
-since it's similar to when a car chassis dips down too far and smacks into the
-dirt, and it gives a similar jarring sensation when reading.
-<p>
-Now, if you try this same procedure with most other text editors, and every web
-browser on earth that I know of, and even with the venerable Unix <code>less</code>
-command--correction:  after looking on StackOverflow and perusing the man page
-more carefully, I discovered that Esc-Space instead of Space will do the same
+When I page down, the browser will not move the bottom line of text to the top of the screen.
+
+Instead, it will put the end of the document at the bottom of the screen,
+ignoring any attempt at continuity.
+
+I think of this as 'bottoming out',
+since it gives a jarring sensation when reading reminiscent of
+a car's suspension dipping down too far and smacking into the dirt.
+
+PDF documents have to do this because they must preserve the typographical layout,
+but webpages have no reason to break the flow of reading at the end.
 </p>
 
 <p>
-If I move
-forward a screenful in Emacs (<code>C-v</code>) or Vim (<code>C-f</code>), they
-know I want what's at the bottom to move to the top, regardless of how many
-lines the file happens to be.  Emacs just puts some unreachable blank space at
-the bottom, and Vim puts cute little tildes to show you're past the end of the
-document, like this:<br>
+Contrast this with moving forward a screenful in text editors like
+<a href="https://www.gnu.org/software/emacs/">Emacs</a>
+(<code>C-v</code>)
+or
+<a href="http://www.vim.org/">Vim</a>
+(<code>C-f</code>).
+They move the line at the bottom of the screen to the top of the screen,
+regardless of how many lines the file happens to be.
+Emacs adds some unreachable blank space at the bottom,
+and Vim puts cute little tildes to show you're past the end of the document,
+like this:<br>
 ~<br>
 ~<br>
 ~<br>
-(I'm not saying reading in Emacs or Vim is perfect; navigating long lines in
-default Vim is painful, since I have to use <code>gj</code> instead of
-<code>j</code> and the <code>.</code> operator doesn't work, besides which it won't
-remember your last column position if you use <code>''</code> to get back to
-where you were.)
+The venerable Unix terminal pager
+<a href="https://www.gnu.org/software/less/"><code>less</code></a>
+calls this <code>forw-screen-force</code>,
+which is mapped to <code>Esc-Space</code> by default;
+the manual page notes this command
+"scrolls a full screenful, even if it reaches end-of-file in the process."
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
-
-
-<p>
-PDF documents have to do this because they have to preserve the typographical
-layout, but webpages shouldn't have to. It is admittedly a non-issue for
-webpages that fit one one screenful and a pretty diluted issue for very long
-webpages, but most are right in the middle, more than one screenful and less
-than 10 or so.
-</p>
 
 <p>
 I put up with this when I didn't know any better, but after using Vim I
