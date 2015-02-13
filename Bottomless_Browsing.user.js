@@ -6,15 +6,25 @@
 // @version     1.2
 // ==/UserScript==
 
-document.addEventListener("DOMContentLoaded", load);
+// Help catch mistakes.
+"use strict";
 
-// Global counter to limit the number of times that padding is added to the end of the page.
-var allowedPadding = 3;
-// TODO: can functions be bound to event listeners if they aren't in global scope?
+// Check for the existence of the body before trying to append anything to it.
+if (typeof document.body === 'object' && document.body !== null) {
+  document.addEventListener("DOMContentLoaded", load);
+  // Global counter to limit the number of times that padding is added to the end of the page.
+  var allowedPadding = 3;
+  // TODO: can functions be bound to event listeners if they aren't in global scope?
+}
+else {
+  if (typeof document.body !== 'object') {
+    console.log("Error: document.body is " + typeof document.body);
+  } else if (document.body === null) {
+    console.log("Error: document.body is null");
+  }
+}
 
 function load() {
-  // Check for the existence of the body before trying to append anything to it.
-  if (typeof document.body == 'object' && document.body !== null) {
     createEmptyPaddingDiv();
 
     padIfNecessary();
@@ -24,14 +34,6 @@ function load() {
     window.addEventListener("resize", padIfNecessary);
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener
     // https://developer.mozilla.org/en-US/docs/Web/Events
-  }
-  else {
-    if (typeof document.body !== 'object') {
-      console.log("Error: document.body is " + typeof document.body);
-    } else if (document.body == null) {
-      console.log("Error: document.body is null");
-    }
-  }
 }
 
 function padIfNecessary() {
@@ -40,7 +42,7 @@ function padIfNecessary() {
     return;
   } else if (allowedPadding > 0) {
     // Append ten lines of tildes.
-    var padding = Array(linesPerPgDn()).join("~<br>");
+    var padding = new Array(linesPerPgDn()).join("~<br>");
     var pagePadderDiv = document.getElementById('pagePadder');
     pagePadderDiv.innerHTML += padding;
 
@@ -52,7 +54,7 @@ function padIfNecessary() {
   } else {
     // We don't want to get into an infinite loop,
     // so just give up.
-    console.log("Cannot pad page anymore.")
+    console.log("Cannot pad page anymore.");
     return;
   }
 }
