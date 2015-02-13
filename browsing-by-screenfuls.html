@@ -35,6 +35,7 @@ Browsing by screenfuls
 <!-- I think these sections should be paragraphs, not divs. -->
 <p>
 Nathaniel Beaver, September 7, 2012
+(Updated and expanded February 2015.)
 </p>
 
 <p>
@@ -85,7 +86,9 @@ but is easier now that we have touch screens and scroll wheels on mice.
 
 Scrolling is hard on the eyes because it takes a lot of effort to track moving text.
 It's also slow; that's one reason why we invented the
-<a href="https://en.wikipedia.org/wiki/Codex">paginated codex</a>
+<a href="https://en.wikipedia.org/wiki/Codex">
+paginated codex
+</a>
 in the first place.
 
 Browser developers know this;
@@ -128,7 +131,9 @@ but webpages have no reason to break the flow of reading at the end.
 
 <p>
 Contrast this with moving forward a screenful in text editors like
-<a href="https://www.gnu.org/software/emacs/">Emacs</a>
+<a href="https://www.gnu.org/software/emacs/">
+Emacs
+</a>
 (<code>C-v</code>)
 or
 <a href="http://www.vim.org/">Vim</a>
@@ -142,7 +147,9 @@ like this:<br>
 ~<br>
 ~<br>
 The venerable Unix terminal pager
-<a href="https://www.gnu.org/software/less/"><code>less</code></a>
+<a href="https://www.gnu.org/software/less/">
+<code>less</code>
+</a>
 calls this <code>forw-screen-force</code>,
 which is mapped to <code>Esc-Space</code> by default;
 the manual page notes this command
@@ -152,49 +159,75 @@ the manual page notes this command
 <button onclick="alert(windowVals())">Window values</button> 
 
 <p>
-I put up with this when I didn't know any better, but after using Vim I
-realized how annoying this phenomenon is, especially on websites that consist
-of one article chopped into 10 different pieces so that they can put more
-banner ads at the top. I use Firefox addons to combat both
-<a href="http://adblockplus.org/en/">irritating ads</a>
+After using Vim for a while,
+I realized how nice this is for editing text,
+and how annoying its absence is in web browsers,
+especially on websites that consist of a single article
+<a href="http://www.slate.com/articles/technology/technology/2012/10/website_pagination_stories_should_load_into_a_single_page_every_time_.html">
+unnecessarily chopped into pages
+</a>
+so that the site can slap more banner ads at the top.
+
+I don't want to give the impression
+that web designers are totally unaware of this problem
+-- this is one reason for the big footers at the bottom of many webpages --
+but it was evident that the general problem would not be solved at the browser level any time soon.
+</p>
+
+<p>
+I'd found ways to combat
+<a href="http://adblockplus.org/en/">
+irritating ads</a>,
+<a href="http://www.teesoft.info/">
+unnecessary pagination</a>,
+and 
+<a href="http://alisdair.mcdiarmid.org/2013/05/29/kill-sticky-headers.html">
+annoying sticky headers</a>,
+but there was nothing I can do about bottoming out on the last screenful.
+I resigned myself to inferior browsing,
+since nobody seemed to notice or care enough to fix it.
+</p>
+
+<p>
+That is, until now; the results of my experiment are on this very page.
+It will not bottom out on the last screenful;
+there will be tildes padding the bottom as needed.
+<p>
+
+<p>
+If you want to use the script,
+the easiest way is to get it directly from the
+<a href="Bottomless_Browsing.user.js">
+source of this page</a>.
+
+
+Chrome/Chromium has
+<a href="http://www.chromium.org/developers/design-documents/user-scripts">
+support for userscripts built in</a>;
+on Firefox you will need
+<a href="http://www.greasespot.net/">
+Greasemonkey</a>.
+
+(I had posted the script on
+<a href="https://web.archive.org/web/20131108025632/http://userscripts.org/scripts/show/145505">
+userscripts.org
+</a>
+but alas,
+<a href="https://news.ycombinator.com/item?id=1574840">
+userscripts has been dead since May 2014</a>
 and
-<a href="http://www.teesoft.info/">pagination</a>,
-but there's nothing I can do about bottoming out on the last screenful. I
-resigned myself to inferior browsing, since nobody seemed to notice or care
-enough to fix it.
+<a href="http://www.ghacks.net/2014/05/09/userscripts-org-good-alternatives/">
+is not coming back</a>.)
 </p>
 
 <p>
+The implementation is in plain Javascript and requires no libraries,
+so it will work offline for e.g. reading documentation.
 
-<!-- TODO: change this to reStructuredText and just link to the demo page. -->
-Until now: see the results of my experiment on the demo page: 
-
-improve the guessing how many lines are necessary; currently I just assume 10
-will be enough. You will notice that if this document flows to betweeen 1 and 2
-screenfuls, there will automatically be padding; this is because the onscroll
-event fires after the scrolling takes place, so the tildes are actually added
-before you even press the PgDn button.
-</p>
-
-<p>
-Incidentally, website designers are aware of this issue, and put links related
-pages or some other form of footer on the bottom of the page; not necessarily
-enough to solve the problem, but enough to show an awareness of the issue.
-Another solution, called "Infinite Scroll", is becoming popular, though in
-practice it's not used for single article-style pages and it seldom loads
-quickly enough to completely prevent bottoming out.
-</p>
-
-<p>
-What web designers seem less aware of is the problems introduced by fixed
-headers, most of which use the css nav-fixed class. Even Ars Technica does
-this, and while Firefox
-<a href='https://bugzil.la/780345'>has fixed it in the latest version</a>,
-I suspect there will always be some issues with it.
-<!-- Bug description: "Page down scrolls too far on pages with fixed header elements (page size is miscalculated)"-->
-Because this problem isn't going away, I am tremendously grateful for tools like the
-<a href="http://alisdair.mcdiarmid.org/2013/05/29/kill-sticky-headers.html">Kill Sticky</a>
-bookmarklet.
+It works by appending an empty div to the end of the body
+and listening for scroll and resize events.
+While it works fine for most websites I have tried,
+it does have difficulties with absolutely positioned elements.
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
