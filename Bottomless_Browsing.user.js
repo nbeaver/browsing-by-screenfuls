@@ -6,18 +6,23 @@
 // @version     1.2
 // ==/UserScript==
 
-// Check for the existence of the body before trying to append anything to it.
-if (typeof document.body == 'object') {
-  pagePadderDiv = createEmptyPaddingDiv();
+document.addEventListener("DOMContentLoaded", load);
 
-  // Counter to limit the number of times that padding is added to the end of the page.
-  var allowedPadding = 3;
+// Global counter to limit the number of times that padding is added to the end of the page.
+var allowedPadding = 3;
+// TODO: can functions be bound to event listeners if they aren't in global scope?
 
-  padIfNecessary();
+function load() {
+  // Check for the existence of the body before trying to append anything to it.
+  if (typeof document.body == 'object' && document.body !== null) {
+    createEmptyPaddingDiv();
 
-  // Every time the user scrolls, check if we need to add space.
-  window.addEventListener("scroll", padIfNecessary);
-  // https://stackoverflow.com/questions/2991382/how-do-i-add-and-remove-an-event-listener-using-a-function-with-parameters
+    padIfNecessary();
+
+    // Every time the user scrolls, check if we need to add space.
+    window.addEventListener("scroll", padIfNecessary);
+    // https://stackoverflow.com/questions/2991382/how-do-i-add-and-remove-an-event-listener-using-a-function-with-parameters
+  }
 }
 
 function padIfNecessary() {
@@ -26,7 +31,8 @@ function padIfNecessary() {
     return;
   } else if (allowedPadding > 0) {
     // Append ten lines of tildes.
-    padding = Array(linesPerPgDn()).join("~<br>");
+    var padding = Array(linesPerPgDn()).join("~<br>");
+    var pagePadderDiv = document.getElementById('pagePadder');
     pagePadderDiv.innerHTML += padding;
 
     // Decrement the scroll limit so we don't keep on adding more and more space ad infinitem.
@@ -83,7 +89,7 @@ function pixelsPerPgDn() {
 }
 
 function linesPerPgDn() {
-  pagePadderDiv = document.getElementById('pagePadder');
+  var pagePadderDiv = document.getElementById('pagePadder');
   //var CSSlineHeight = pagePadderDiv.style.lineHeight;
   if ( approxLineHeight(pagePadderDiv) > 10 && !isNaN(approxLineHeight(pagePadderDiv)) ) {
     return Math.ceil(pixelsPerPgDn() / approxLineHeight(pagePadderDiv));
