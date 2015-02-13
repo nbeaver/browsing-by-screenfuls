@@ -1,9 +1,18 @@
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: Palatino, Georgia, Times, serif;
   font-size: 150%;
   max-width: 30em;
   justify-content: center;
   text-align: justify;
   /* https://developer.mozilla.org/en-US/docs/Web/CSS/margin#Horizontal_centering_with_margin.3A_0_auto.3B */
   margin: 0 auto;
-  }
+}
+h1 {
+  text-align:center;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+p {
+  margin-left: 2em;
+  margin-right: 2em;
+}
