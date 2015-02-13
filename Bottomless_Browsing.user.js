@@ -19,9 +19,18 @@ function load() {
 
     padIfNecessary();
 
-    // Every time the user scrolls, check if we need to add space.
+    // Every time the user scrolls or resizes the window, check if we need to add space.
     window.addEventListener("scroll", padIfNecessary);
-    // https://stackoverflow.com/questions/2991382/how-do-i-add-and-remove-an-event-listener-using-a-function-with-parameters
+    window.addEventListener("resize", padIfNecessary);
+    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener
+    // https://developer.mozilla.org/en-US/docs/Web/Events
+  }
+  else {
+    if (typeof document.body !== 'object') {
+      console.log("Error: document.body is " + typeof document.body);
+    } else if (document.body == null) {
+      console.log("Error: document.body is null");
+    }
   }
 }
 
