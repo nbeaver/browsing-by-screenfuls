@@ -6,22 +6,6 @@
 <title>Browsing by screenfuls</title>
 <link rel="stylesheet" href="sandbox.css">
 <script type="text/javascript" src="Bottomless_Browsing.user.js"></script>
-<script type="text/javascript">
-function windowVals() {
-  var windowVars = new Array();
-  windowVars['scrollHeight - clientHeight'] = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  windowVars['innerHeight'] = window.innerHeight;
-  windowVars['clientHeight'] = document.documentElement.clientHeight;
-  windowVars['scrollMaxY'] = window.scrollMaxY;
-  windowVars['scrollHeight'] = document.documentElement.scrollHeight;
-  windowVars['offsetHeight'] = document.documentElement.offsetHeight;
-  windowVars['scrollTop'] = document.documentElement.scrollTop;
-  var varString = '';
-  for (var myvar in windowVars) {
-    varString += myvar + "=" + windowVars[myvar] + "\n";
-  }
-  return varString;
-}
 </script>
 </head>
 <body>
@@ -29,8 +13,6 @@ function windowVals() {
 <h1>
 Browsing by screenfuls
 </h1>
-
-<button onclick="alert(windowVals())">Window values</button> 
 
 <!-- I think these sections should be paragraphs, not divs. -->
 <p>
@@ -100,8 +82,6 @@ It's also slow; that's one reason why humans invented the
 paginated codex </a>
 in the first place.
 </p>
-
-<button onclick="alert(windowVals())">Window values</button> 
 
 <p>
 I find reading by screenfuls using
@@ -173,8 +153,6 @@ which is mapped to <code>Esc-Space</code> by default;
 the manual page notes this this command
 "scrolls a full screenful, even if it reaches end-of-file in the process."
 </p>
-
-<button onclick="alert(windowVals())">Window values</button> 
 
 <p>
 I don't want to claim that web designers are completely unaware of this difference;
@@ -258,8 +236,6 @@ it does have difficulties with absolutely positioned elements.
 
 Suggestions for improvement are always welcome. ∎
 </p>
-
-<button onclick="alert(windowVals())">Window values</button> 
 
 </body>
 </html>
