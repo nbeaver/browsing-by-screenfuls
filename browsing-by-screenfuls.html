@@ -34,19 +34,20 @@ Browsing by screenfuls
 
 <!-- I think these sections should be paragraphs, not divs. -->
 <p>
-Nathaniel Beaver, September 7, 2012
-(Updated and expanded February 2015.)
+Nathaniel Beaver, September 7, 2012.
+<br>
+Updated and expanded February 2015.
 </p>
 
 <p>
 I read a lot of documents on LCD computer screens.
 
 PDFs are annoying to read on most displays,
-since the PDF is usually a letter size portrait orientation,
+since the PDF is usually a letter-size portrait orientation,
 whereas most displays are landscape orientation.
 
 PDFs also can't be reflowed and waste a lot of space in the margins,
-which makes them almost unreadable on small or narrow screens.
+which makes them painful to read on small or narrow screens.
 </p>
 
 <p>
@@ -64,41 +65,52 @@ and were never meant to be.
 </p>
 
 <p>
-HTML also tends to be better for skimming a document.
+HTML also tends to be nicer for skimming a document.
+PDFs render a page at a time and so rapidly flipping through a document is harder.
 
-If I hold down the Page Down key in Adobe Acrobat Reader™ on a long PDF,
-the pages don't stop coming after I release the key;
-I asked for that many pages and by George I'll get them,
+If I press the page down key too long in Adobe® Reader®,
+the scrolling gathers momentum and doesn't stop when I release the key;
+I guess I asked for that many pages and by gum I'll get them,
 even if it takes several minutes to load pages I didn't want to see.
 
-By then I've lost my place and I have to go find it again somehow.
+By then I've lost my place and I have to go back and find it again somehow.
 
-(This issue is mostly a feature of Adobe's PDF reader, by the way;
-open-source PDF readers like Evince don't generally have this issue
-unless the PDF is very image-heavy or otherwise renders slowly.)
+(This only happens on Adobe's PDF reader, by the way;
+open-source PDF readers like Evince don't do this
+unless the PDF is very image-heavy or otherwise renders slowly
+and the keystroke can't register.)
 </p>
 
 <p>
-when HTML doesn't fit one one screenful,
-most people scroll to see the rest of the page,
+When HTML doesn't fit one one screenful,
+you can either scroll or page down to see the rest.
+
+<a href="http://uxmyths.com/post/654047943/myth-people-dont-scroll">
+Most people scroll</a>,
 which used to require clicking and dragging on the scroll bar,
-but is easier now that we have touch screens and scroll wheels on mice.
+but is easier now that we have touch screens and scroll wheels.
 
-Scrolling is hard on the eyes because it takes a lot of effort to track moving text.
-It's also slow; that's one reason why we invented the
+Scrolling is
+<a href="https://www.specsavers.co.uk/ask-the-optician/dizziness-when-scrolling-down-pages-on-a-computer-screen/">
+hard on the eyes</a>
+because it takes a lot of effort to track moving text.<sup>[citation&nbsp;needed]</sup>
+
+It's also slow; that's one reason why humans invented the
 <a href="https://en.wikipedia.org/wiki/Codex">
-paginated codex
-</a>
+paginated codex </a>
 in the first place.
-
-Browser developers know this;
-that's why the spacebar and Page Down keys both move down the page by one screenful.
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
 
 <p>
-Reading by screenfuls is a natural way to read documents.
+I find reading by screenfuls using
+<a href="https://ux.stackexchange.com/questions/53110/why-does-the-space-bar-do-page-down-in-browsers">
+spacebar</a> or page down to be a natural way to read documents,
+although I realize
+<a href="https://stackoverflow.com/questions/2343573/pressing-spacebar-moves-page-down">
+there are those who disagree</a>.
+
 I love the page down capability,
 because it is similar to reading a book,
 but keeps some continuity between 'pages'.
@@ -113,14 +125,18 @@ Beautiful.
 However, there is a problem with reading HTML
 that is a result of browser implementation,
 not intrinsic to the format.
+</p>
 
+<p>
 Suppose I am reading an HTML page that is a screenful and a half long.
 
 When I page down, the browser will not move the bottom line of text to the top of the screen.
 
 Instead, it will put the end of the document at the bottom of the screen,
 ignoring any attempt at continuity.
+</p>
 
+<p>
 I think of this as 'bottoming out',
 since it gives a jarring sensation when reading reminiscent of
 a car's suspension dipping down too far and smacking into the dirt.
@@ -138,6 +154,7 @@ Emacs
 or
 <a href="http://www.vim.org/">Vim</a>
 (<code>C-f</code>).
+
 They move the line at the bottom of the screen to the top of the screen,
 regardless of how many lines the file happens to be.
 Emacs adds some unreachable blank space at the bottom,
@@ -146,52 +163,63 @@ like this:<br>
 ~<br>
 ~<br>
 ~<br>
+
 The venerable Unix terminal pager
 <a href="https://www.gnu.org/software/less/">
 <code>less</code>
 </a>
 calls this <code>forw-screen-force</code>,
 which is mapped to <code>Esc-Space</code> by default;
-the manual page notes this command
+the manual page notes this this command
 "scrolls a full screenful, even if it reaches end-of-file in the process."
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
 
 <p>
-After using Vim for a while,
-I realized how nice this is for editing text,
-and how annoying its absence is in web browsers,
+I don't want to claim that web designers are completely unaware of this difference;
+after all, many webpages have big footers or long comment threads that pad the bottom out nicely.
+
+However, since most people I know scroll with the mouse instead of tapping spacebar or page down,
+and tablets and smartphones don't even have a page-down key,
+I'm guessing this is more of a happy accident than an intentional improvement.
+</p>
+
+<p>
+In any case,
+after using Vim I realized how nice its consistent screenfuls are for editing text,
+and how annoying this feature's absence is in web browsers,
 especially on websites that consist of a single article
 <a href="http://www.slate.com/articles/technology/technology/2012/10/website_pagination_stories_should_load_into_a_single_page_every_time_.html">
 unnecessarily chopped into pages
 </a>
 so that the site can slap more banner ads at the top.
-
-I don't want to give the impression
-that web designers are totally unaware of this problem
--- this is one reason for the big footers at the bottom of many webpages --
-but it was evident that the general problem would not be solved at the browser level any time soon.
 </p>
 
 <p>
 I'd found ways to combat
+<a href="http://www.hecticgeek.com/2012/06/disable-smooth-scrolling-firefox-13/">
+blurry scrolling</a>,
 <a href="http://adblockplus.org/en/">
 irritating ads</a>,
 <a href="http://www.teesoft.info/">
 unnecessary pagination</a>,
-and 
+and
 <a href="http://alisdair.mcdiarmid.org/2013/05/29/kill-sticky-headers.html">
 annoying sticky headers</a>,
-but there was nothing I can do about bottoming out on the last screenful.
+but there was nothing I could do about bottoming out on the last screenful.
 I resigned myself to inferior browsing,
 since nobody seemed to notice or care enough to fix it.
 </p>
 
 <p>
-That is, until now; the results of my experiment are on this very page.
-It will not bottom out on the last screenful;
-there will be tildes padding the bottom as needed.
+That is, until now.
+</p>
+
+<p>
+The results of my experiment are on this very page.
+It will not bottom out on the last screenful,
+because there will be tildes padding the bottom as needed.
 <p>
 
 <p>
@@ -199,7 +227,6 @@ If you want to use the script,
 the easiest way is to get it directly from the
 <a href="Bottomless_Browsing.user.js">
 source of this page</a>.
-
 
 Chrome/Chromium has
 <a href="http://www.chromium.org/developers/design-documents/user-scripts">
@@ -213,11 +240,11 @@ Greasemonkey</a>.
 userscripts.org
 </a>
 but alas,
-<a href="https://news.ycombinator.com/item?id=1574840">
-userscripts has been dead since May 2014</a>
-and
 <a href="http://www.ghacks.net/2014/05/09/userscripts-org-good-alternatives/">
-is not coming back</a>.)
+userscripts has been dead since May 2014</a>
+and is
+<a href="https://news.ycombinator.com/item?id=1574840">
+not coming back</a>.)
 </p>
 
 <p>
@@ -228,6 +255,8 @@ It works by appending an empty div to the end of the body
 and listening for scroll and resize events.
 While it works fine for most websites I have tried,
 it does have difficulties with absolutely positioned elements.
+
+Suggestions for improvement are always welcome. ∎
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
