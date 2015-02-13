@@ -5,6 +5,7 @@
 <meta name="author" lang="en" content="Nathaniel Beaver">
 <title>Browsing by screenfuls</title>
 <link rel="stylesheet" href="sandbox.css">
+<script type="text/javascript" src="Bottomless_Browsing.user.js"></script>
 <script type="text/javascript">
 function windowVals() {
   var windowVars = new Array();
@@ -15,7 +16,7 @@ function windowVals() {
   windowVars['scrollHeight'] = document.documentElement.scrollHeight;
   windowVars['offsetHeight'] = document.documentElement.offsetHeight;
   windowVars['scrollTop'] = document.documentElement.scrollTop;
-  varString = '';
+  var varString = '';
   for (var myvar in windowVars) {
     varString += myvar + "=" + windowVars[myvar] + "\n";
   }
@@ -37,66 +38,90 @@ Nathaniel Beaver, September 7, 2012
 </p>
 
 <p>
-I read text documents and PDFs on my laptop screen on a regular basis. PDFs are
-problematic to read on smaller screens, since generally documents are in 8.5" x
-11" portrait orientation, whereas screens are generally landscape orientation
-(with a few exceptions). Text documents, however, can flow to fill whatever
-area I wish, so that setting up side-by-side comparisons, for example, is easy.
-Text documents are continuous in a way that PDFs can't be, and PDFs also waste
-a lot of space in the margins.
+I read a lot of documents on computer screens.
+
+PDFs are annoying to read on most displays,
+since the PDF is usually a letter size portrait orientation,
+whereas most displays are landscape orientation.
+
+PDFs also can't be reflowed and waste a lot of space in the margins,
+which makes them almost unreadable on small or narrow screens.
 </p>
 
 <p>
-There is, however, another problem. Suppose I open a text document. If it fits
-on one screenful, fine and dandy. But suppose it doesn't. Now I have some
-choices: I can resize the window (not always possible, and unnecessarily time
-consuming), I can scroll down one line at a time with the arrow keys or mouse,
-or I can go forward one screenful (Page Down key or equivalent).
+HTML rendered in a browser, however,
+can reflow to fill whatever screen it's displayed on,
+and with proper use of CSS can be made readable on any display.
+
+HTML is continuous in a way that PDFs aren't.
 </p>
 
 <p>
-Scrolling is what most people do on both browsers and text editors, and now
-that we have scroll wheels on mice, that's a lot more practical that clicking
-and dragging on the scroll bar. But compare that to reading a book. When I read
-a book, I read a page, remember the last little bit, then keep on going. The
-text stays still, and my eyes always know where to go. If I want to go back and
-re-read some dialogue, it's dead simple. Scrolling, by contrast, is hard on the
-eyes because it's hard to do it at a constant speed, and all that jumping
-around is tiring.
+HTML also tends to be better for skimming a document.
+
+If I hold down the Page Down key in Adobe Acrobat Reader™ on a really long PDF,
+the pages don't stop coming after I release the key;
+I asked for that many pages and by George I'll get them,
+even if it takes several minutes to load pages I didn't want to see.
+
+By then I've lost my place and I have to go find it again.
+Maybe by searching, as long as it's not a bitmapped PDF, 'cause then I'm sunk.
+
+(This issue is specific to Adobe's PDF reader, by the way; 
+open-source PDF readers like Evince don't have this problem.)
+</p>
+
+<p>
+when HTML doesn't fit one one screenful,
+most people scroll to see the rest of the page,
+which used to require clicking and dragging on the scroll bar,
+but is easier now that we have touch screens and scroll wheels on mice.
+
+Scrolling is hard on the eyes because it takes a lot of effort to track moving text.
+It's also slow; that's one reason why we invented the
+<a href="https://en.wikipedia.org/wiki/Codex">paginated codex</a>
+in the first place.
+
+Browser developers know this;
+that's why the spacebar and Page Down keys both move down the page by one screenful.
 </p>
 
 <button onclick="alert(windowVals())">Window values</button> 
 
 <p>
-Now, if scrolling only made my eyes water and my vision blur, I might forgive
-it. But it's slow; that's why we invented books in the first place, because
-they're better for reading than scrolls. This is what is really unforgivable
-about scrolling: it just takes too much time to keep track of where I am if I
-actually want to read each word quickly.
+Reading by screenfuls is a natural way to read documents.
+I love the page down capability,
+because it is similar to reading a book,
+but keeps some continuity between 'pages'.
+
+The text stays still until I get the bottom of the screen,
+then I page down and flick my eyes up to the top of the screen.
+
+Beautiful.
+</p>
+
+
+<p>
+However, there is a problem with reading HTML that is a result of browser implementation,
+not intrinsic to the format.
+
+Suppose I am reading an HTML page that is a screenful and a half long.
+When I page down,
+they will not put what's at the bottom of the screen onto the top.
+
+They will instead put the end of the file at the bottom of the screen,
+essentially ignoring any attempt at continuity. I call this 'bottoming out,'
+since it's similar to when a car chassis dips down too far and smacks into the
+dirt, and it gives a similar jarring sensation when reading.
+<p>
+Now, if you try this same procedure with most other text editors, and every web
+browser on earth that I know of, and even with the venerable Unix <code>less</code>
+command--correction:  after looking on StackOverflow and perusing the man page
+more carefully, I discovered that Esc-Space instead of Space will do the same
 </p>
 
 <p>
-Reading by screenfuls is a natural way to read documents. I love the page down
-capability, because it is like books, but allows a line of continuity between
-'pages'. Even better, it can adjust to the size of my screen. The text stays
-still until I get the bottom of the screen, then I press page down and
-flick my eyes up to the top of the screen. Beautiful.
-</p>
-
-<p>
-Ok, but what if I'm just skimming a document? Then all I want is to move
-through a bunch of pages really fast. So I hold down on the Page Down key, and
-they all fly by. But if I do this in Adobe Acrobat Reader™ on a really long
-PDF, it won't stop going. I'm not sure if this is because it takes so long
-rendering or because it uses inertial scrolling, but after I let up on the key,
-it won't stop. I asked for that many pages, and by George I'll get them, even
-if it takes 30 seconds to load pages I don't want to see. By then I've lost my
-place and I have to go find it again. Maybe by searching, as long as it's not a
-bitmapped PDF, 'cause then I'm sunk.
-</p>
-
-<p>
-Now suppose I have a text file that is a screenful and a half long. If I move
+If I move
 forward a screenful in Emacs (<code>C-v</code>) or Vim (<code>C-f</code>), they
 know I want what's at the bottom to move to the top, regardless of how many
 lines the file happens to be.  Emacs just puts some unreachable blank space at
@@ -114,17 +139,6 @@ where you were.)
 
 <button onclick="alert(windowVals())">Window values</button> 
 
-<p>
-Now, if you try this same procedure with most other text editors, and every web
-browser on earth that I know of, and even with the venerable Unix <code>less</code>
-command--correction:  after looking on StackOverflow and perusing the man page
-more carefully, I discovered that Esc-Space instead of Space will do the same
-thing as vi--they will not put what's at the bottom of the screen onto the top.
-They will instead put the end of the file at the bottom of the screen,
-essentially ignoring any attempt at continuity. I call this 'bottoming out,'
-since it's similar to when a car chassis dips down too far and smacks into the
-dirt, and it gives a similar jarring sensation when reading.
-</p>
 
 <p>
 PDF documents have to do this because they have to preserve the typographical
