@@ -10,18 +10,14 @@
 "use strict";
 
 // Check for the existence of the body before trying to append anything to it.
-if (typeof document.body === 'object' && document.body !== null) {
+if (typeof document.body === 'object') {
   document.addEventListener("DOMContentLoaded", load);
   // Global counter to limit the number of times that padding is added to the end of the page.
   var allowedPadding = 3;
   // TODO: can functions be bound to event listeners if they aren't in global scope?
 }
 else {
-  if (typeof document.body !== 'object') {
     console.log("Error: document.body is " + typeof document.body);
-  } else if (document.body === null) {
-    console.log("Error: document.body is null");
-  }
 }
 
 function load() {
@@ -38,7 +34,6 @@ function load() {
 
 function padIfNecessary() {
   if (totalVerticalPixels() < pixelsPerPgDn() || pixelsBelow() >= pixelsPerPgDn()) {
-    console.log("No padding necessary.")
     return;
   } else if (allowedPadding > 0) {
     // Append ten lines of tildes.
@@ -54,7 +49,7 @@ function padIfNecessary() {
   } else {
     // We don't want to get into an infinite loop,
     // so just give up.
-    console.log("Cannot pad page anymore.");
+    console.log("Error: Cannot pad page anymore.");
     return;
   }
 }
