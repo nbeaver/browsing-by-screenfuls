@@ -6,6 +6,7 @@
 // @include https://*
 // @include file://*
 // @exclude chrome://*
+// @exclude https://mail.google.com/*
 // @version     1.2
 // ==/UserScript==
 
