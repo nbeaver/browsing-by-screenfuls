@@ -1,8 +1,11 @@
 // ==UserScript==
 // @name        Bottomless Browsing
 // @namespace   http://userscripts.org
-// @description Pad the bottom of the page with tildes if it is longer than one page to allow seamlessly paging down, much the way the vi editor does. Plays well with AutoPager.
-// @include     *
+// @description Pad the bottom of the page to allow seamlessly paging down, much the way the vi editor does. Plays well with AutoPager.
+// @include http://*
+// @include https://*
+// @include file://*
+// @exclude chrome://*
 // @version     1.2
 // ==/UserScript==
 
@@ -13,7 +16,7 @@
 if (typeof document.body === 'object') {
   document.addEventListener("DOMContentLoaded", load);
   // Global counter to limit the number of times that padding is added to the end of the page.
-  var allowedPadding = 3;
+  var allowedPadding = 1;
   // TODO: can functions be bound to event listeners if they aren't in global scope?
 }
 else {
