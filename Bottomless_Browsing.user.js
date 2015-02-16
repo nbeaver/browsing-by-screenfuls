@@ -7,6 +7,8 @@
 // @include file://*
 // @exclude chrome://*
 // @exclude https://mail.google.com/*
+// @exclude https://www.google.com/calendar/*
+// @exclude https://play.google.com/*
 // @version     1.2
 // ==/UserScript==
 
