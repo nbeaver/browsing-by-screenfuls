@@ -24,7 +24,7 @@ if (typeof document.body === 'object' && window.frameElement === null) {
   var allowedPadding = 1;
   // TODO: can functions be bound to event listeners if they aren't in global scope?
 }
-else if window.frameElement !== null {
+else if (window.frameElement !== null) {
     console.log("Error: document.body is " + typeof document.body);
 }
 
