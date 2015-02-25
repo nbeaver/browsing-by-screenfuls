@@ -18,17 +18,20 @@
 // Check for the existence of the body before trying to append anything to it.
 // Also check to make sure we aren't in an iframe.
 // https://developer.mozilla.org/en-US/docs/Web/API/window.frameElement
-if (typeof document.body === 'object' && window.frameElement === null) {
-    document.addEventListener("DOMContentLoaded", load);
+if (typeof document.body === 'object' && self == top) {
+    document.addEventListener("DOMContentLoaded", injectDiv);
     // Global counter to limit the number of times that padding is added to the end of the page.
     var allowedPadding = 1;
     // TODO: can functions be bound to event listeners if they aren't in global scope?
 }
-else if (window.frameElement !== null) {
+else if (typeof document.body === 'object') {
+    console.log("Error: typeof document.body = "+typeof document.body)
+}
+else if (self == top) {
     console.log("Error: document.body is " + typeof document.body);
 }
 
-function load() {
+function injectDiv() {
     createEmptyPaddingDiv();
 
     padIfNecessary();
@@ -57,7 +60,7 @@ function padIfNecessary() {
     } else {
         // We don't want to get into an infinite loop,
         // so just give up.
-        console.log("Error: Cannot pad page anymore.");
+        console.log("Warning: Cannot pad page anymore.");
         return;
     }
 }
