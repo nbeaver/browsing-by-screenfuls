@@ -15,6 +15,8 @@
 // Help catch mistakes.
 "use strict";
 
+var DEBUG = false;
+
 // Check for the existence of the body before trying to append anything to it.
 // Also check to make sure we aren't in an iframe.
 // https://developer.mozilla.org/en-US/docs/Web/API/window.frameElement
@@ -44,9 +46,17 @@ function injectDiv() {
 }
 
 function padIfNecessary() {
-    if (totalVerticalPixels() < pixelsPerPgDn() || pixelsBelow() >= pixelsPerPgDn()) {
+    if (totalVerticalPixels() <= pixelsPerPgDn() || pixelsBelow() >= pixelsPerPgDn()) {
+        if (DEBUG) {
+            console.log("Padding not necessary.");
+        }
         return;
     } else if (allowedPadding > 0) {
+        if (DEBUG) {
+            console.log("totalVerticalPixels() = "+ totalVerticalPixels());
+            console.log("pixelsBelow() = "        + pixelsBelow());
+            console.log("pixelsPerPgDn() = "      + pixelsPerPgDn());
+        }
         // Append ten lines of tildes.
         var padding = new Array(linesPerPgDn()).join("~<br>");
         var pagePadderDiv = document.getElementById('pagePadder');
