@@ -49,13 +49,19 @@ function padIfNecessary() {
     if (totalVerticalPixels() <= pixelsPerPgDn() || pixelsBelow() >= pixelsPerPgDn()) {
         if (DEBUG) {
             console.log("Padding not necessary.");
+            console.log("totalVerticalPixels() = "+ totalVerticalPixels());
+            console.log("pixelsBelow() = "        + pixelsBelow());
+            console.log("pixelsPerPgDn() = "      + pixelsPerPgDn());
+            console.log("pixelsAbove() = "        + pixelsAbove());
         }
         return;
     } else if (allowedPadding > 0) {
         if (DEBUG) {
+            console.log("Padding required.");
             console.log("totalVerticalPixels() = "+ totalVerticalPixels());
             console.log("pixelsBelow() = "        + pixelsBelow());
             console.log("pixelsPerPgDn() = "      + pixelsPerPgDn());
+            console.log("pixelsAbove() = "        + pixelsAbove());
         }
         // Append ten lines of tildes.
         var padding = new Array(linesPerPgDn()).join("~<br>");
@@ -89,10 +95,18 @@ function createEmptyPaddingDiv() {
 }
 
 function totalVerticalPixels() {
+    if (DEBUG) {
+        console.log("document.body.scrollHeight = " + document.body.scrollHeight);
+        console.log("document.body.offsetHeight = " + document.body.offsetHeight);
+        //console.log("document.body.clientHeight = " + document.body.clientHeight);
+        //console.log("document.documentElement.scrollHeight = " + document.documentElement.scrollHeight);
+        //console.log("document.documentElement.offsetHeight = " + document.documentElement.offsetHeight);
+        //console.log("document.documentElement.clientHeight = " + document.documentElement.clientHeight);
+    }
     // total number of scrollable pixels.
     return document.documentElement.scrollHeight;
 }
-// Determined empirically. Could also use this strategy:
+// Determined empirically. Could also just take the maximum of them all:
 // http://james.padolsey.com/javascript/get-document-height-cross-browser/
 
 function pixelsAbove() {
