@@ -97,11 +97,12 @@ function createEmptyPaddingDiv() {
 function totalVerticalPixels() {
     if (DEBUG) {
         console.log("document.body.scrollHeight = " + document.body.scrollHeight);
-        console.log("document.body.offsetHeight = " + document.body.offsetHeight);
+        //console.log("document.body.offsetHeight = " + document.body.offsetHeight);
         //console.log("document.body.clientHeight = " + document.body.clientHeight);
-        //console.log("document.documentElement.scrollHeight = " + document.documentElement.scrollHeight);
+        console.log("document.documentElement.scrollHeight = " + document.documentElement.scrollHeight);
         //console.log("document.documentElement.offsetHeight = " + document.documentElement.offsetHeight);
         //console.log("document.documentElement.clientHeight = " + document.documentElement.clientHeight);
+        // http://stackoverflow.com/questions/22675126/what-is-offsetheight-clientheight-scrollheight
     }
     // total number of scrollable pixels.
     return document.body.scrollHeight;
