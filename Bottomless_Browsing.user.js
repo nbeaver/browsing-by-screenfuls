@@ -104,7 +104,7 @@ function totalVerticalPixels() {
         //console.log("document.documentElement.clientHeight = " + document.documentElement.clientHeight);
     }
     // total number of scrollable pixels.
-    return document.documentElement.scrollHeight;
+    return document.body.scrollHeight;
 }
 // Determined empirically. Could also just take the maximum of them all:
 // http://james.padolsey.com/javascript/get-document-height-cross-browser/
