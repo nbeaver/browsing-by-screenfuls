@@ -46,7 +46,7 @@ function injectDiv() {
 }
 
 function padIfNecessary() {
-    if (totalVerticalPixels() <= pixelsPerPgDn() || pixelsBelow() >= pixelsPerPgDn()) {
+    if ( totalVerticalPixels() <= pixelsPerPgDn() ) {
         if (DEBUG) {
             console.log("Padding not necessary.");
             console.log("totalVerticalPixels() = "+ totalVerticalPixels());
