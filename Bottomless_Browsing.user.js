@@ -76,7 +76,9 @@ function padIfNecessary() {
     } else {
         // We don't want to get into an infinite loop,
         // so just give up.
-        console.log("Warning: Cannot pad page anymore.");
+        if (DEBUG) {
+            console.log("Warning: Cannot pad page anymore.");
+        }
         return;
     }
 }
