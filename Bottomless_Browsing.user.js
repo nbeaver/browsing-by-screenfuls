@@ -20,20 +20,37 @@ var DEBUG = false;
 // Check for the existence of the body before trying to append anything to it.
 // Also check to make sure we aren't in an iframe.
 // https://developer.mozilla.org/en-US/docs/Web/API/window.frameElement
-if (typeof document.body === 'object' && self == top) {
+if (typeof document.body === 'object' && self === top) {
     document.addEventListener("DOMContentLoaded", injectDiv);
     // Global counter to limit the number of times that padding is added to the end of the page.
     var allowedPadding = 1;
     // TODO: can functions be bound to event listeners if they aren't in global scope?
 }
-else if (typeof document.body === 'object') {
-    console.log("Error: typeof document.body = "+typeof document.body)
+else if (typeof document.body === 'object' && self !== top) {
+    if (DEBUG) {
+        console.log("Error: self !== top");
+        if (window.location !== window.parent.location) {
+            console.log("This appears to be in an iframe.");
+        }
+    }
 }
-else if (self == top) {
-    console.log("Error: document.body is " + typeof document.body);
+else if (typeof document.body !== 'object' && self === top) {
+    if (DEBUG) {
+        console.log("Error: typeof document.body = " + typeof document.body);
+        console.log("Possibly in an XML document or SVG image?");
+        if (document.doctype.name) {
+            console.log("document.doctype.name = " + document.doctype.name);
+        }
+    }
 }
 
 function injectDiv() {
+    // TODO: why is this always the empty string?
+    if (document.body.style.position === 'absolute') {
+        // Don't both doing anything if the body is positioned absolutely,
+        // since we can't reliably add padding to the bottom anyway.
+        return;
+    }
     createEmptyPaddingDiv();
 
     padIfNecessary();
