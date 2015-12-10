@@ -9,6 +9,7 @@
 // @exclude https://mail.google.com/*
 // @exclude https://www.google.com/calendar/*
 // @exclude https://play.google.com/*
+// @grant none
 // @version     1.2
 // ==/UserScript==
 
