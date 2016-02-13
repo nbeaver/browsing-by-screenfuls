@@ -1,1 +1,1 @@
-- [ ] Hide tildes when printing.
+- [x] Hide tildes when printing.

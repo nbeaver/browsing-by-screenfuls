@@ -109,6 +109,14 @@ function createEmptyPaddingDiv() {
     // Remove the style so that the div actually goes at the bottom of the page
     // instead of floating alongside everything else.
     newDiv.setAttribute("style", "clear: both");
+
+    // Prevent the div from showing up during printing.
+    if (document.querySelector('style') == null) {
+        var newStyle = document.createElement('style');
+        document.head.appendChild(newStyle)
+    }
+    document.querySelector('style').textContent += "\n@media print { #pagePadder { display: none; } }\n"
+
     document.body.appendChild(newDiv);
     return newDiv;
     // https://stackoverflow.com/questions/7759837/put-divs-below-floatleft-divs
