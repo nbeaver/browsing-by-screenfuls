@@ -26,6 +26,7 @@ if (DEBUG) {
 // Also check to make sure we aren't in an iframe.
 // https://developer.mozilla.org/en-US/docs/Web/API/window.frameElement
 if (typeof document.body === 'object' && self === top) {
+  // TODO: why doesn't this work? document.addEventListener("DOMContentLoaded", injectDiv);
   window.addEventListener('load', injectDiv, false);
   if (DEBUG) {
     console.log("Added eventListener.")
