@@ -18,11 +18,18 @@
 
 var DEBUG = false;
 
+if (DEBUG) {
+  console.log("debug mode enabled");
+}
+
 // Check for the existence of the body before trying to append anything to it.
 // Also check to make sure we aren't in an iframe.
 // https://developer.mozilla.org/en-US/docs/Web/API/window.frameElement
 if (typeof document.body === 'object' && self === top) {
   document.addEventListener("DOMContentLoaded", injectDiv);
+  if (DEBUG) {
+    console.log("Added eventListener.")
+  }
   // Global counter to limit the number of times that padding is added to the end of the page.
   var allowedPadding = 1;
   // TODO: can functions be bound to event listeners if they aren't in global scope?
@@ -44,12 +51,21 @@ else if (typeof document.body !== 'object' && self === top) {
     }
   }
 }
+else {
+  console.log("error: this condition should be unreachable");
+}
 
 function injectDiv() {
+  if (DEBUG) {
+    console.log("injectDiv()")
+  }
   // TODO: why is this always the empty string?
   if (document.body.style.position === 'absolute') {
     // Don't both doing anything if the body is positioned absolutely,
     // since we can't reliably add padding to the bottom anyway.
+    if (DEBUG) {
+      console.log("doing nothing because document.body.style.position === 'absolute'");
+    }
     return;
   }
   createEmptyPaddingDiv();
